@@ -1,0 +1,13 @@
+GeoPlanet Explorer - another showcase for quick development with YQL and YUI 
+
+A few days ago Gary Gale pinged me on messenger and subsequently carried a cup of coffee to my desk to pester me with another challenge. This time he talked about just how rich and cool the GeoPlanet data is and that it is tough to show people this in a simple interface. Internally we have a few pretty cool tools for testing and analyzing the data but most of them are too loaded with information only understandable for the Geo folk out there. So in essence, the benevolent overlord of geo technologies in Yahoo was asking to build a simple interface to navigate the GeoPlanet data.
+
+Well, this morning I got a chance to have a go at his request and here's the "GeoPlanet Explorer":http://isithackday.com/geoplanet-explorer/index.php?woeid=23689631 interface for you. Check the following screencast to see it in action:
+
+Building the interface wasn't magic - I used YQL to access the data, write a few lines of PHP to display it in a nested list and then added a few lines of YUI3 JavaScript to collapse and expand the location details.
+
+Notice that the whole interface uses progressive enhancement throughout. If you have no JavaScript at your disposal you get a static map and all the information in one single page. The lat/lon links open in Yahoo Maps and you can see the location there. 
+
+If you have JavaScript enabled the interface collapses and the map is Ajax and will be refreshed every time you click on a lat/lon link. 
+
+The "source code of the GeoPlanet Explorer":http://github.com/codepo8/geoplanet-explorer is available on GitHub and it can give you a few pointers how to use the GeoPlanet API with YQL for your own solutions.

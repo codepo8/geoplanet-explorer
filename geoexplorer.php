@@ -88,13 +88,10 @@ function render($set){
          $swlon = $set->boundingBox->southWest->longitude;
          $out .= '<li>Location (lat/lon): <a href="'.
                  'http://maps.yahoo.com/map?ard=1&lat='.$lat.'&lon='.$lon.
-                 '" class="latlon">'.$lat.', '.$lon.'</a></li>'.
-                 '<li>Bounding Box:<p>NE <a href="http://maps.yahoo.com/map'.
-                 '?ard=1&lat='.$nelat.'&lon='.$nelon.'" class="latlon">'.
-                 $nelat.', '.$nelon.'</a></p>'.
-                 '<p>SW <a href="http://maps.yahoo.com/map?ard=1&lat='.$swlat.
-                 '&lon='.$swlon.'" class="latlon">'.$swlat.', '.$swlon.
-                 '</a></p>'.
+                 '" class="latlon bb'.$nelat.'/'.$nelon.'x'.$swlat.'/'.$swlon.'">'.$lat.', '.$lon.'</a></li>'.
+                 '<li>Bounding Box:'.
+                 '<p>NE '.$nelat.', '.$nelon.'</p>'.
+                 '<p>SW '.$swlat.', '.$swlon.'</p>'.
                  '</li>'.
           '</ul></li>';
   return $out;

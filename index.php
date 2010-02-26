@@ -78,12 +78,16 @@
           echo renderlist($all->query->results->results[0]->place);
           $current = $all->query->results->results[0]->place;
           $name = $current->name;
-          $lat = $current->centroid->latitude;
-          $lon = $current->centroid->longitude;
+          $mlat = $current->centroid->latitude;
+          $mlon = $current->centroid->longitude;
+          $mnelat = $current->boundingBox->northEast->latitude;
+          $mnelon = $current->boundingBox->northEast->longitude;
+          $mswlat = $current->boundingBox->southWest->latitude;
+          $mswlon = $current->boundingBox->southWest->longitude;
           $url= 'http://local.yahooapis.com/MapsService/V1/mapImage?'.
                 'appid='.$staticmapskey.
                 '&image_height=270&image_width=470&output=php'.
-                '&latitude='.$lat.'&longitude='.$lon;
+                '&location='.$all->query->results->results[0]->place->name;
           $img = unserialize(get($url));
 
           echo '</ul>';
@@ -92,7 +96,7 @@
           
           echo '<div class="yui-u"><div id="map">'.
                '<a href="http://maps.yahoo.com/map'.
-               '?ard=1&lat='.$lat.'&lon='.$lon.'">On Yahoo Maps</a>'.
+               '?ard=1&lat='.$mlat.'&lon='.$mlon.'">On Yahoo Maps</a>'.
                '<img src="'.$img['Result'].'" alt="map of '.$name.'"></div>';
           
           echo '</div>';
@@ -162,7 +166,7 @@
     </div>
 
   </div>
-<div id="ft" role="contentinfo"><p>Written by <a href="http://wait-till-i.com">Chris Heilmann</a>, powered by <a href="http://developer.yahoo.com/yql/">YQL</a> and <a href="http://developer.yahoo.com/geo">GeoPlanet</a>.</p></div>
+<div id="ft" role="contentinfo"><p>Written by <a href="http://wait-till-i.com">Chris Heilmann</a>, powered by <a href="http://developer.yahoo.com/yql/">YQL</a> and <a href="http://developer.yahoo.com/geo">GeoPlanet</a>. Download the source code of this <a href="http://github.com/codepo8/geoplanet-explorer">on GitHub</a></p></div>
 </div>
 <script src="http://yui.yahooapis.com/3.0.0/build/yui/yui-min.js"></script>
 <script src="geoexplorer.js"></script>
@@ -175,8 +179,19 @@ src="http://api.maps.yahoo.com/ajaxymap?v=3.8&appid=<?php echo $mapskey;?>"></sc
   	map.addTypeControl();
   	map.addZoomLong();
   	map.addPanControl();
+		map.disableKeyControls();
   	map.setMapType(YAHOO_MAP_REG);
-  	map.drawZoomAndCenter("<?php echo $lat.','.$lon;?>");
+		var points = [];
+		var point = new YGeoPoint(<?php echo $mlat.','.$mlon;?>);
+		points.push(point);
+		var newMarker = new YMarker(point);
+    map.addOverlay(newMarker);
+		var point = new YGeoPoint(<?php echo $mnelat.','.$mnelon;?>);
+		points.push(point);
+		var point = new YGeoPoint(<?php echo $mswlat.','.$mswlon;?>);
+		points.push(point);
+    var zac = map.getBestZoomAndCenter(points);
+    map.drawZoomAndCenter(zac.YGeoPoint,zac.zoomLevel);
 	}
 </script>
 </body>
